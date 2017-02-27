@@ -367,7 +367,6 @@ export default class IntlTelInput extends Component {
           />
         </div>
         <ul
-          id={dropdownID}
           aria-hidden
           tabIndex={-1}
           ref={(dropdown) => { this.countryDropdown = dropdown }}
@@ -467,8 +466,6 @@ IntlTelInput.defaultProps = {
   callingCodeMessage: 'Please select a valid country code',
   catchAllMessage: 'Not a valid phone number',
   validMessage: 'This phone number is valid',
-  inputID: 'intl-tel-input',
-  dropdownID: 'country-selector-dropdown',
   callingCodeDivider: <span style={{marginLeft: 4, marginRight: 4}}>/</span>
 }
 
