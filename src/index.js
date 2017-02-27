@@ -3,6 +3,7 @@ import countries from 'country-data'
 import { AsYouTypeFormatter, PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber'
 import escapeStringRegexp from 'escape-string-regexp'
 import FlagIcon from 'react-flag-kit/lib/FlagIcon'
+import uuid from 'uuid'
 
 export default class IntlTelInput extends Component {
   constructor () {
