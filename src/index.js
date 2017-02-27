@@ -213,7 +213,7 @@ export default class IntlTelInput extends Component {
       if (!mounted) {
         this.phoneInput.focus()
         if (onChange) {
-          onChange({ ...country, ...validation, callingCode })
+          onChange({ ...country, ...validation, callingCode, phoneNumber })
         }
       }
     })
