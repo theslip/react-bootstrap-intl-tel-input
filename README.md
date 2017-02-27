@@ -37,8 +37,8 @@ import IntlTelInput from 'react-bootstrap-intl-tel-input'
 | callingCodeMessage | string | Please select a valid country code | User friendly validation message returned by the `onChange` function when a invalid country code is entered. |
 | catchAllMessage | string | Not a valid phone number | User friendly validation message returned by the `onChange` function when all other validation messages are not applicable. |
 | validMessage | string | This phone number is valid | User friendly validation message returned by the `onChange` function when the phone number is valid. |
-| placeholder | string | Search for a calling code by country | |
-| maxHeight | number | 300 | |
+| placeholder | string | Search for a calling code by country | Placeholder of the tel input. |
+| maxHeight | number | 300 | Max height of the country dropdown list. |
 | defaultCountry | string | US | Default country to select when no `defaultValue` is supplied. |
 | inputID | string, number | intl-tel-input | Sets the `id` of the tel input text box. |
 | dropdownID | string, number | country-selector-dropdown | Sets the `id` of the country selector dropdown list. |
