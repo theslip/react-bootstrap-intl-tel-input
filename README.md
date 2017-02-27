@@ -32,8 +32,8 @@ import IntlTelInput from 'react-bootstrap-intl-tel-input'
 | paginate | number | 50 | Specifies how many results to show at once in the dropdown list. |
 | paginateText | element, string | Display additional results... | Text displayed once the user has scrolled to the bottom of the list. |
 | noResultsMessage | string | No results available | Message displayed when the typeahead search term yields no results. |
-| minLengthMessage | string | Too short to be a valid phone number | User friendly validation message returned by the `onChange` function when the phone number is too ***short*** to be valid. |
-| maxLengthMessage | string | Too long to be a valid phone number  | User friendly validation message returned by the `onChange` function when the phone number is too ***long*** to be valid. | 
+| minLengthMessage | string | Too short to be a valid phone number | User friendly validation message returned by the `onChange` function when the phone number is too ***short***. |
+| maxLengthMessage | string | Too long to be a valid phone number  | User friendly validation message returned by the `onChange` function when the phone number is too ***long***. | 
 | callingCodeMessage | string | Please select a valid country code | User friendly validation message returned by the `onChange` function when a invalid country code is entered. |
 | catchAllMessage | string | Not a valid phone number | User friendly validation message returned by the `onChange` function when all other validation messages are not applicable. |
 | validMessage | string | This phone number is valid | User friendly validation message returned by the `onChange` function when the phone number is valid. |
