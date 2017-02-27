@@ -27,7 +27,7 @@ import IntlTelInput from 'react-bootstrap-intl-tel-input'
 | defaultValue | number, string | | Default phone number. Can be either an international or national number. Placing a `+` in front of the calling code will  allow the component to parse the number and automatically select the appropriate country. |
 | preferredCountries | string[] | [] | Expects an array of ISO 3166-1 alpha-2 codes. Supplied values will be pushed to the top of the dropdown list. |
 | onChange | func() | | Passes back data regarding current phone number such as validation status, selected country information, and currently entered phone number. |
-| disabled | boolean | false | Toggles the disabled attribute of the input and country selector. |
+| disabled | boolean | false | Toggles the disabled attribute of the tel input and country selector. |
 | removeToken | element, string | `<span>&times;</span>` | Token on the right side of the input that clears typeahead and phonenumber values when clicked. |
 | paginate | number | 50 | Threshold to paginate to. User has the option to load more after scrolling to the bottom of the list. |
 | paginateText | element, string | Display additional results... | Text displayed once the user has scrolled to the bottom of the list. |
