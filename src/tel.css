@@ -1,0 +1,148 @@
+.intl-phone-input {
+  position: relative;
+  border-radius: 4px;
+}
+
+.intl-phone-input.open {
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.4);
+}
+
+.intl-phone-input.open .country-selector {
+  border-radius: 4px 0 0 0;
+}
+
+.intl-phone-input .intl-country-selector {
+  transition: background-color .25s, color .25s;
+  z-index: 1;
+}
+
+.intl-phone-input .intl-country-selector:hover {
+  background-color: #f0f0f0;
+}
+
+.intl-phone-input .intl-country-selector .flag-icon {
+  vertical-align: middle;
+  height: 100% !important;
+  margin-right: 3px;
+}
+
+.intl-phone-input .phone-input {
+  padding-right: 32px !important;
+}
+
+.intl-phone-input.open .phone-input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.intl-phone-input .remove-token-container {
+  position: absolute;
+  right: 15px;
+  font-size: 26px;
+  z-index: 10;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.intl-phone-input .country-dropdown {
+  display: block;
+  z-index: 101;
+  position: absolute;
+  width: 100%;
+  overflow-x: scroll;
+  margin-top: 0;
+  border-radius: 0 0 4px 4px;
+  padding: 0;
+  border-width: 0px;
+  border-top: none;
+  transition: all 0.2s ease;
+}
+
+.intl-phone-input.open .country-dropdown {
+  transition: all 0.2s ease;
+  padding: 10px 0 10px 0 !important;
+  border-width: 1px;
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.4);
+}
+
+.intl-phone-input .country-dropdown .dropdown-item {
+  padding: 15px;
+  cursor: pointer;
+  transition: background-color .25s, color .25s;
+}
+
+.intl-phone-input .country-dropdown .calling-code-multi-select {
+  opacity: 0;
+  z-index: -1;
+  transition: all 0.2s ease;
+  background: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.intl-phone-input .country-dropdown .calling-code-multi-select.open {
+  opacity: 1;
+  z-index: auto;
+}
+
+.intl-phone-input .country-dropdown .calling-code-multi-select .multi-select-back-btn {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+}
+
+.intl-phone-input .country-dropdown .calling-code-multi-select .country-btn {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 8px;
+}
+
+.intl-phone-input .country-dropdown .dropdown-item .country-code-divider::after {
+  content: '/';
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.intl-phone-input .country-dropdown .dropdown-item .country-code {
+  color: #aaaaaa;
+  font-size: 90%;
+}
+
+.intl-phone-input .country-dropdown .dropdown-item:hover {
+  background: #ebebeb;
+}
+
+.intl-phone-input button {
+  cursor: pointer;
+}
+
+.intl-phone-input .country-dropdown .dropdown-item.selected {
+  background: #E3F2FD;
+}
+
+.intl-phone-input .country-dropdown .dropdown-item.selected:hover {
+  background: #bbdef8;
+}
+
+.intl-phone-input .country-dropdown .dropdown-item.preferred {
+  border-bottom: 1px solid #c1c1c1;
+}
+
+.intl-phone-input .country-dropdown .dropdown-item.tabbed {
+  background: #ebebeb;
+}
+
+.intl-phone-input .country-dropdown .dropdown-item.selected.tabbed {
+  background: #bbdef8;
+}
+
+.intl-phone-input .country-dropdown .dropdown-item .flag-icon {
+  margin-right: 10px;
+  vertical-align: middle;
+}

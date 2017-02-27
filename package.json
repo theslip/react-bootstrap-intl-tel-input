@@ -1,0 +1,42 @@
+{
+  "name": "react-bootstrap-intl-tel-input",
+  "version": "1.0.0",
+  "description": "React telephone input built on bootstrap4",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src --out-dir dist",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theslip/react-bootstrap-intl-tel-input.git"
+  },
+  "keywords": [
+    "bootstrap",
+    "react",
+    "react-component",
+    "tel",
+    "phone",
+    "tel-input",
+    "telephone",
+    "intl"
+  ],
+  "author": "David Rutsch",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/theslip/react-bootstrap-intl-tel-input/issues"
+  },
+  "homepage": "https://github.com/theslip/react-bootstrap-intl-tel-input#readme",
+  "dependencies": {
+    "country-data": "0.0.31",
+    "escape-string-regexp": "^1.0.5",
+    "google-libphonenumber": "^2.0.10",
+    "react": "^15.4.2",
+    "react-flag-kit": "0.2.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-preset-latest": "^6.22.0",
+    "babel-preset-react": "^6.23.0"
+  }
+}
