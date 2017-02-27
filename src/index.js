@@ -205,7 +205,6 @@ export default class IntlTelInput extends Component {
     }
     const callingCode = multiSelect || (countryCallingCodes && countryCallingCodes[0])
     const validation = this.validateNumber(alpha2, intlPhoneNumber)
-    console.log('in component: ', validation, this.state)
     this.setState({ selectedCountry: country, callingCode, open: false, tabbedIndex: -1, searchTerm: searchTerm.trim() }, () => {
       this.cancelMultiSelect()
       if (formatOnly) {
