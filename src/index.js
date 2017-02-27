@@ -313,8 +313,9 @@ export default class IntlTelInput extends Component {
 
   render () {
     const { open, selectedCountry, intlPhoneNumber, filteredCountries, searchTerm, paginateCount, multiSelectOpen, multiSelectItem, lastPreferred, tabbedIndex, message, valid, hover } = this.state
-    const { noResultsMessage, className, removeToken, paginate, paginateText, placeholder, maxHeight, disabled, inputClassName, inputID, dropdownID, callingCodeDivider } = this.props
+    const { noResultsMessage, className, removeToken, paginate, paginateText, placeholder, maxHeight, disabled, inputClassName, callingCodeDivider } = this.props
     const { alpha2 } = selectedCountry
+    const inputID = uuid.v4()
     const tabbedCountry = filteredCountries.length > 0 && filteredCountries[0].alpha2
     const flag = (this.missingFlags[alpha2] ? this.missingFlags[alpha2] : selectedCountry !== 'unknown' && Object.keys(selectedCountry).length > 0 && alpha2.toUpperCase()) || 'WW'
     return (
@@ -503,13 +504,5 @@ IntlTelInput.propTypes = {
   callingCodeMessage: PropTypes.string,
   catchAllMessage: PropTypes.string,
   inputClassName: PropTypes.string,
-  validMessage: PropTypes.string,
-  inputID: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]),
-  dropdownID: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ])
+  validMessage: PropTypes.string
 }

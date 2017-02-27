@@ -5,7 +5,7 @@ React international telephone input built on bootstrap v4
 
 ### Install
 ```
-npm i react-bootstrap-intl-tel-input --save 
+npm i react-bootstrap-intl-tel-input --save
 ```
 
 ### Usage
@@ -33,18 +33,15 @@ import IntlTelInput from 'react-bootstrap-intl-tel-input'
 | paginateText | element, string | Display additional results... | Text displayed once the user has scrolled to the bottom of the list. |
 | noResultsMessage | string | No results available | Message displayed when the typeahead search term yields no results. |
 | minLengthMessage | string | Too short to be a valid phone number | User friendly validation message returned by the `onChange` function when the phone number is too ***short***. |
-| maxLengthMessage | string | Too long to be a valid phone number  | User friendly validation message returned by the `onChange` function when the phone number is too ***long***. | 
+| maxLengthMessage | string | Too long to be a valid phone number  | User friendly validation message returned by the `onChange` function when the phone number is too ***long***. |
 | callingCodeMessage | string | Please select a valid country code | User friendly validation message returned by the `onChange` function when a invalid country code is entered. |
 | catchAllMessage | string | Not a valid phone number | User friendly validation message returned by the `onChange` function when all other validation messages are not applicable. |
 | validMessage | string | This phone number is valid | User friendly validation message returned by the `onChange` function when the phone number is valid. |
 | placeholder | string | Search for a calling code by country | Placeholder of the tel input. |
 | maxHeight | number | 300 | Max height of the country dropdown list. |
 | defaultCountry | string | US | Default country to select when no `defaultValue` is supplied. |
-| inputID | string, number | intl-tel-input | Sets the `id` of the tel input text box. |
-| dropdownID | string, number | country-selector-dropdown | Sets the `id` of the country selector dropdown list. |
 | inputClassName | string | | Adds classNames to the tel input. |
 | callingCodeDivider | element, string | `<span>/</span>` | Token used between calling codes in the dropdown list. |
 | reset | boolean | | When set to true, the input will be reset to its `defaultValue` |
 
 ###### Note: All the validation messages are read to screen readers, so be sure to be descriptive!
-
