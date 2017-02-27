@@ -39,12 +39,12 @@ import IntlTelInput from 'react-bootstrap-intl-tel-input'
 | validMessage | string | This phone number is valid | User friendly validation message returned by the `onChange` function when the phone number is valid. |
 | placeholder | string | Search for a calling code by country | |
 | maxHeight | number | 300 | |
-| defaultCountry | string | US | |
-| inputID | string, number | intl-tel-input | |
-| dropdownID | string, number | country-selector-dropdown | |
-| inputClassName | string | | |
-| callingCodeDivider | element, string | `<span>/</span>` | Token used between calling codes when a country has multiple codes. |
-| reset | boolean | | When set to true, the input will be reset to its defaultValue |
+| defaultCountry | string | US | Default country to select when no `defaultValue` is supplied. |
+| inputID | string, number | intl-tel-input | Sets the `id` of the tel input text box. |
+| dropdownID | string, number | country-selector-dropdown | Sets the `id` of the country selector dropdown list. |
+| inputClassName | string | | Adds classNames to the tel input. |
+| callingCodeDivider | element, string | `<span>/</span>` | Token used between calling codes in the dropdown list. |
+| reset | boolean | | When set to true, the input will be reset to its `defaultValue` |
 
 ###### Note: All the validation messages are read to screen readers, so be sure to be descriptive!
 
