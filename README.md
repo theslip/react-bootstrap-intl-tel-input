@@ -29,7 +29,7 @@ import IntlTelInput from 'react-bootstrap-intl-tel-input'
 | onChange | func() | | Passes back data regarding current phone number such as validation status, selected country information, and currently entered phone number. |
 | disabled | boolean | false | Toggles the disabled attribute of the tel input and country selector. |
 | removeToken | element, string | `<span>&times;</span>` | Token on the right side of the input that clears typeahead and phonenumber values when clicked. |
-| paginate | number | 50 | Threshold to paginate to. User has the option to load more after scrolling to the bottom of the list. |
+| paginate | number | 50 | Specifies how many results to show at once in the dropdown list. |
 | paginateText | element, string | Display additional results... | Text displayed once the user has scrolled to the bottom of the list. |
 | noResultsMessage | string | No results available | Message displayed when the typeahead search term yields no results. |
 | minLengthMessage | string | Too short to be a valid phone number | User friendly validation message returned by the `onChange` function when the phone number is too ***short*** to be valid. |
