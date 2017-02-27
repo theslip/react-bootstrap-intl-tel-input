@@ -133,7 +133,7 @@ export default class IntlTelInput extends Component {
   }
 
   getNationalNumber (alpha2, number) {
-    return number ? number.substr(alpha2.length + 1) : ''
+    return number && alpha2 && alpha2.length ? number.substr(alpha2.length + 1) : ''
   }
 
   formatNumber (alpha2, number) {
@@ -146,7 +146,6 @@ export default class IntlTelInput extends Component {
   }
 
   onChangePhone (value = '') {
-    // const { onChange } = this.props
     const { selectedCountry, callingCode } = this.state
     const unformattedNumber = this.unformatNumber(value)
     const lookupCountry = this.lookupCountry(value.replace('+', ''))
@@ -158,15 +157,24 @@ export default class IntlTelInput extends Component {
         const phoneNumber = this.getNationalNumber(alpha2, intlPhoneNumber)
         const validation = this.validateNumber(alpha2, intlPhoneNumber)
         const { friendlyMessage, valid } = validation
-        this.setState({ intlPhoneNumber, phoneNumber, message: friendlyMessage, valid })
+        this.setState({ intlPhoneNumber, phoneNumber, message: friendlyMessage, valid }, () => {
+          if (country) {
+            this.selectCountry(country)
+          }
+        })
       }
     } else if (unformattedNumber.length < 1) {
-      this.setState({ intlPhoneNumber: unformattedNumber })
+      this.setState({ intlPhoneNumber: unformattedNumber }, () => {
+        if (country) {
+          this.selectCountry(country)
+        }
+      })
     } else {
-      this.setState({ intlPhoneNumber: value })
-    }
-    if (country) {
-      this.selectCountry(country)
+      this.setState({ intlPhoneNumber: value }, () => {
+        if (country) {
+          this.selectCountry(country)
+        }
+      })
     }
   }
 
@@ -190,13 +198,14 @@ export default class IntlTelInput extends Component {
     const { onChange } = this.props
     const { countryCallingCodes, alpha2 } = country
     const { intlPhoneNumber, phoneNumber, searchTerm } = this.state
-    if (countryCallingCodes.length > 1 && !multiSelect) {
+    if (countryCallingCodes && countryCallingCodes.length > 1 && !multiSelect) {
       return this.setState({ multiSelectOpen: true, multiSelectItem: country }, () => {
         this.multiSelect.style.zIndex = '101'
       })
     }
-    const callingCode = multiSelect || countryCallingCodes[0]
+    const callingCode = multiSelect || (countryCallingCodes && countryCallingCodes[0])
     const validation = this.validateNumber(alpha2, intlPhoneNumber)
+    console.log('in component: ', validation, this.state)
     this.setState({ selectedCountry: country, callingCode, open: false, tabbedIndex: -1, searchTerm: searchTerm.trim() }, () => {
       this.cancelMultiSelect()
       if (formatOnly) {
@@ -271,7 +280,6 @@ export default class IntlTelInput extends Component {
   }
 
   propChangeHandler (props, mounted, reset) {
-    console.log('loop')
     const { selectedCountry } = this.state
     const { defaultCountry, defaultValue } = props
     const countryNotSelected = Object.keys(selectedCountry).length < 1 && selectedCountry !== 'unknown'
@@ -327,7 +335,7 @@ export default class IntlTelInput extends Component {
               type='button'
               tabIndex={0}
               disabled={disabled}
-              aria-hidden={true}
+              aria-hidden
               style={{borderBottomLeftRadius: open ? 0 : null, transition: this.bgColorTransitionStyle, cursor: disabled ? null : 'pointer'}}
               className='btn btn-secondary dropdown-toggle country-selector'
               onClick={(e) => this.onOpenHandler(e)}>
@@ -363,7 +371,7 @@ export default class IntlTelInput extends Component {
         </div>
         <ul
           id={dropdownID}
-          aria-hidden={true}
+          aria-hidden
           tabIndex={-1}
           ref={(dropdown) => { this.countryDropdown = dropdown }}
           className='dropdown-menu country-dropdown'
@@ -435,7 +443,7 @@ export default class IntlTelInput extends Component {
                   key={item}
                   type='button'
                   onClick={() => this.selectCountry(multiSelectItem, false, item)}
-                  style={{position: 'relative', top: '50%', transform : 'perspective(1px) translateY(-50%)', marginLeft: 8, verticalAlign: 'middle'}}
+                  style={{position: 'relative', top: '50%', transform: 'perspective(1px) translateY(-50%)', marginLeft: 8, verticalAlign: 'middle'}}
                   className='btn btn-secondary'>
                   {item}
                 </button>
