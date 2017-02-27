@@ -5,7 +5,7 @@ React international telephone input built on bootstrap v4
 
 ### Install
 ```
-npm i react-bootstrap-intl-tel-input 
+npm i react-bootstrap-intl-tel-input --save 
 ```
 
 ### Usage
