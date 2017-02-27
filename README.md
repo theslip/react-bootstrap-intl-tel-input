@@ -10,6 +10,8 @@ npm i react-bootstrap-intl-tel-input
 
 ### Usage
 ```javascript
+import IntlTelInput from 'react-bootstrap-intl-tel-input'
+
 <IntlTelInput
   preferredCountries={['US', 'GB']}
   defaultCountry={'US'}
