@@ -4,7 +4,7 @@ React international telephone input built on bootstrap v4
 ## Props
 
 | Name               | Prop Type       | Default Prop                         | Details
-|:-------------------|:----------------|:-------------------------------------|:---------------------------------------------| | defaultValue       | number, string  |                                      |                                              |
+|:-------------------|:----------------|:----------------------------         |:---------------------------------------------| | defaultValue       | number, string  |                                      |                                              |
 | preferredCountries | string[]        | []                                   |                                              |
 | onChange           | func()          |                                      |                                              |
 | disabled           | boolean         | false                                |                                              |
@@ -13,7 +13,6 @@ React international telephone input built on bootstrap v4
 | paginateText       | element, string | Display additional results...        |                                              |
 | noResultsMessage   | string          | No results available                 |                                              |
 | minLengthMessage   | string          | Too short to be a valid phone number |                                              |
-|                    |                 |                                      |                                              |
 | maxLengthMessage   | string          | Too long to be a valid phone number  |                                              | 
 | callingCodeMessage | string          | Please select a valid country code   |                                              |
 | catchAllMessage    | string          | Not a valid phone number             |                                              |
