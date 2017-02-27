@@ -129,7 +129,8 @@ export default class IntlTelInput extends Component {
   }
 
   unformatNumber (number) {
-    return number ? number.replace(/[^0-9]/g, '') : number
+    const _number = !isNaN(number) ? number.toString() : number
+    return _number ? _number.replace(/[^0-9]/g, '') : number
   }
 
   getNationalNumber (alpha2, number) {
@@ -145,6 +146,12 @@ export default class IntlTelInput extends Component {
     return intlPhoneNumber
   }
 
+  onChangeCallback (country) {
+    if (country) {
+      this.selectCountry(country)
+    }
+  }
+
   onChangePhone (value = '') {
     const { selectedCountry, callingCode } = this.state
     const unformattedNumber = this.unformatNumber(value)
@@ -157,24 +164,12 @@ export default class IntlTelInput extends Component {
         const phoneNumber = this.getNationalNumber(alpha2, intlPhoneNumber)
         const validation = this.validateNumber(alpha2, intlPhoneNumber)
         const { friendlyMessage, valid } = validation
-        this.setState({ intlPhoneNumber, phoneNumber, message: friendlyMessage, valid }, () => {
-          if (country) {
-            this.selectCountry(country)
-          }
-        })
+        this.setState({ intlPhoneNumber, phoneNumber, message: friendlyMessage, valid }, () => this.onChangeCallback(country))
       }
     } else if (unformattedNumber.length < 1) {
-      this.setState({ intlPhoneNumber: unformattedNumber }, () => {
-        if (country) {
-          this.selectCountry(country)
-        }
-      })
+      this.setState({ intlPhoneNumber: unformattedNumber }, () => () => this.onChangeCallback(country))
     } else {
-      this.setState({ intlPhoneNumber: value }, () => {
-        if (country) {
-          this.selectCountry(country)
-        }
-      })
+      this.setState({ intlPhoneNumber: value }, () => () => this.onChangeCallback(country))
     }
   }
 
@@ -194,7 +189,7 @@ export default class IntlTelInput extends Component {
     this.setState({ filteredCountries: value.trim() === '' ? preferredCountries : filteredCountries, searchTerm: value, tabbedIndex: -1 })
   }
 
-  selectCountry (country, mounted = false, multiSelect = false, formatOnly = false) {
+  selectCountry (country, mounted = false, multiSelect = false, onClick = false) {
     const { onChange } = this.props
     const { countryCallingCodes, alpha2 } = country
     const { intlPhoneNumber, phoneNumber, searchTerm } = this.state
@@ -204,16 +199,17 @@ export default class IntlTelInput extends Component {
       })
     }
     const callingCode = multiSelect || (countryCallingCodes && countryCallingCodes[0])
-    const validation = this.validateNumber(alpha2, intlPhoneNumber)
+    const _intlPhoneNumber = mounted ? intlPhoneNumber : this.formatNumber(alpha2, this.unformatNumber(`${callingCode}${phoneNumber}`))
+    const validation = this.validateNumber(alpha2, _intlPhoneNumber)
     this.setState({ selectedCountry: country, callingCode, open: false, tabbedIndex: -1, searchTerm: searchTerm.trim() }, () => {
-      this.cancelMultiSelect()
-      if (formatOnly) {
-        this.setState({ intlPhoneNumber: mounted ? intlPhoneNumber : this.formatNumber(alpha2, this.unformatNumber(`${callingCode}${phoneNumber}`)) })
+      if (onClick) {
+        this.setState({ intlPhoneNumber: _intlPhoneNumber })
       }
+      this.cancelMultiSelect()
       if (!mounted) {
         this.phoneInput.focus()
         if (onChange) {
-          onChange({ ...country, ...validation, callingCode, phoneNumber })
+          onChange({ ...country, ...validation, callingCode, phoneNumber, intlPhoneNumber: _intlPhoneNumber })
         }
       }
     })
@@ -285,7 +281,7 @@ export default class IntlTelInput extends Component {
     if (defaultValue) {
       const { intlPhoneNumber, parsed } = this.validateNumber('unknown', defaultValue)
       if (intlPhoneNumber) {
-        this.setState({ intlPhoneNumber, phoneNumber: parsed.getNationalNumber() }, () => {
+        this.setState({ intlPhoneNumber, phoneNumber: parsed.getNationalNumber().toString() }, () => {
           this.selectCountry(this.lookupCountry(parsed.getCountryCode()), mounted || reset)
         })
       } else {
