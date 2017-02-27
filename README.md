@@ -1,6 +1,8 @@
 # react-bootstrap-intl-tel-input
 React international telephone input built on bootstrap v4
 
+![alt text](https://github.com/theslip/react-bootstrap-intl-tel-input/raw/master/src/demo.gif "Demo")
+
 ## Props
 
 | Name | Prop Type | Default Prop | Details |
