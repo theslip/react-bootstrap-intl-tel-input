@@ -441,7 +441,7 @@ export default class IntlTelInput extends Component {
                 <button
                   key={item}
                   type='button'
-                  onClick={() => this.selectCountry(multiSelectItem, false, item)}
+                  onClick={() => this.selectCountry(multiSelectItem, false, item, true)}
                   style={{position: 'relative', top: '50%', transform: 'perspective(1px) translateY(-50%)', marginLeft: 8, verticalAlign: 'middle'}}
                   className='btn btn-secondary'>
                   {item}
