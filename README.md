@@ -25,3 +25,4 @@ React international telephone input built on bootstrap v4
 | dropdownID         | string, number  | country-selector-dropdown                                |
 | inputClassName     | string          |                                                          |
 | callingCodeDivider | element, string | `<span style={{marginLeft: 4, marginRight: 4}}>/</span>` |
+| reset              | boolean         |                                                          |
