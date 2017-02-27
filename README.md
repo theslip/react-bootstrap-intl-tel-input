@@ -3,8 +3,8 @@ React international telephone input built on bootstrap v4
 
 ## Props
 
-| Name | Prop Type | Default Prop       | Details
-|:---- |:----------|:-------------------|:--------|
+| Name | Prop Type | Default Prop | Details |
+|:---- |:----------|:-------------|:--------|
 | defaultValue | number, string | | Default phone number. Can be either an international or national number. Placing a `+` in front of the calling code will  allow the component to parse the number and automatically select the appropriate country. |
 | preferredCountries | string[] | [] | Expects an array of ISO 3166-1 alpha-2 codes. Supplied values will be pushed to the top of the dropdown list. |
 | onChange | func() | | Passes back data regarding current phone number such as validation status, selected country information, and currently entered phone number. |
