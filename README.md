@@ -1,5 +1,5 @@
 # react-bootstrap-intl-tel-input
-React international telephone input built on bootstrap
+React international telephone input built on bootstrap v4
 
 ### Props
 
