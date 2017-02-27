@@ -182,8 +182,8 @@ export default class IntlTelInput extends Component {
       const { name, countryCallingCodes } = country
       const searchCriteria = `${name} ${countryCallingCodes.join(' ')}`
       return new RegExp(escapeStringRegexp(value.trim()), 'gi').test(searchCriteria)
-    }).sort((a, b) => a.name.length - b.name.length)
-    this.setState({ filteredCountries: value === '' ? preferredCountries : filteredCountries, searchTerm: value, tabbedIndex: -1 })
+    })
+    this.setState({ filteredCountries: value.trim() === '' ? preferredCountries : filteredCountries, searchTerm: value, tabbedIndex: -1 })
   }
 
   selectCountry (country, mounted = false, multiSelect = false, formatOnly = false) {
