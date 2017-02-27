@@ -3,7 +3,22 @@ React international telephone input built on bootstrap v4
 
 <img src="https://github.com/theslip/react-bootstrap-intl-tel-input/raw/master/src/demo.gif" alt="Demo" width="380" />
 
-## Props
+### Install
+```
+npm i react-bootstrap-intl-tel-input 
+```
+
+## Usage
+```javascript
+<IntlTelInput
+  preferredCountries={['US', 'GB']}
+  defaultCountry={'US'}
+  defaultValue={'+1 555-555-5555'}
+  onChange={(data) => this.onChangeHandler(data)}
+/>
+```
+
+### Props
 
 | Name | Prop Type | Default Prop | Details |
 |:---- |:----------|:-------------|:--------|
