@@ -3,7 +3,7 @@ React international telephone input built on bootstrap v4
 
 ## Props
 
-| Name               | Type            | Default                                   |
+| Name               | Prop Type       | Default Prop                              |
 |--------------------|-----------------|-------------------------------------------|
 | defaultValue       | number, string  |                                           |
 | preferredCountries | string[]        | []                                        |
