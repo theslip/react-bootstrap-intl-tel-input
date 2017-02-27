@@ -12,6 +12,8 @@ export default class IntlTelInput extends Component {
     this.mouseDownOnMenu = false
     this._pageClick = this.pageClick.bind(this)
     this.missingFlags = { AQ: 'WW', BQ: 'NL', EH: 'WW-AFR', MF: 'FR', SH: 'GB' }
+    this.boxShadowStyle = '0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.4)'
+    this.bgColorTransitionStyle = 'background-color .25s, color .25s'
     this.state = {
       open: false,
       selectedCountry: {},
@@ -25,7 +27,7 @@ export default class IntlTelInput extends Component {
       multiSelectOpen: false,
       multiSelectItem: {},
       lastPreferred: '',
-      tabbedIndex: 1
+      tabbedIndex: -1
     }
   }
 
@@ -93,7 +95,7 @@ export default class IntlTelInput extends Component {
       const { paginate } = this.props
       const key = e.key
       if (key === 'Escape') {
-        this.setState({ open: false, tabbedIndex: 0 })
+        this.setState({ open: false, tabbedIndex: -1 })
       } else if (key === 'ArrowDown' || (key === 'Tab' && !e.shiftKey)) {
         e.preventDefault()
         const newIndex = tabbedIndex === filteredCountries.length ? filteredCountries.length : tabbedIndex + 1
@@ -181,7 +183,7 @@ export default class IntlTelInput extends Component {
       const searchCriteria = `${name} ${countryCallingCodes.join(' ')}`
       return new RegExp(escapeStringRegexp(value.trim()), 'gi').test(searchCriteria)
     }).sort((a, b) => a.name.length - b.name.length)
-    this.setState({ filteredCountries: value === '' ? preferredCountries : filteredCountries, searchTerm: value, tabbedIndex: 0 })
+    this.setState({ filteredCountries: value === '' ? preferredCountries : filteredCountries, searchTerm: value, tabbedIndex: -1 })
   }
 
   selectCountry (country, mounted = false, multiSelect = false, formatOnly = false) {
@@ -195,7 +197,7 @@ export default class IntlTelInput extends Component {
     }
     const callingCode = multiSelect || countryCallingCodes[0]
     const validation = this.validateNumber(alpha2, intlPhoneNumber)
-    this.setState({ selectedCountry: country, callingCode, open: false, tabbedIndex: 0, searchTerm: searchTerm.trim() }, () => {
+    this.setState({ selectedCountry: country, callingCode, open: false, tabbedIndex: -1, searchTerm: searchTerm.trim() }, () => {
       this.cancelMultiSelect()
       if (formatOnly) {
         this.setState({ intlPhoneNumber: mounted ? intlPhoneNumber : this.formatNumber(alpha2, this.unformatNumber(`${callingCode}${phoneNumber}`)) })
@@ -211,7 +213,7 @@ export default class IntlTelInput extends Component {
 
   pageClick () {
     if (!this.mouseDownOnMenu) {
-      this.setState({ open: false, tabbedIndex: 0 }, () => {
+      this.setState({ open: false, tabbedIndex: -1 }, () => {
         this.countryDropdown.scrollTop = 0
       })
       this.cancelMultiSelect()
@@ -225,6 +227,8 @@ export default class IntlTelInput extends Component {
       this.setState({ open: !open })
       if (!open) {
         this.phoneInput.focus()
+      } else {
+        this.setState({ tabbedIndex: -1 })
       }
     }
   }
@@ -251,7 +255,23 @@ export default class IntlTelInput extends Component {
     this.mouseDownOnMenu = false
   }
 
+  getBgColor (index, selected) {
+    const { tabbedIndex, hoverIndex } = this.state
+    const hovered = index === hoverIndex
+    const tabbed = index === tabbedIndex
+    if (tabbed) {
+      return '#EBEBEB'
+    } else if (selected && hovered) {
+      return '#BBDEF8'
+    } else if (selected) {
+      return '#E3F2FD'
+    } else if (hovered) {
+      return '#EBEBEB'
+    }
+  }
+
   propChangeHandler (props, mounted, reset) {
+    console.log('loop')
     const { selectedCountry } = this.state
     const { defaultCountry, defaultValue } = props
     const countryNotSelected = Object.keys(selectedCountry).length < 1 && selectedCountry !== 'unknown'
@@ -259,14 +279,14 @@ export default class IntlTelInput extends Component {
       const { intlPhoneNumber, parsed } = this.validateNumber('unknown', defaultValue)
       if (intlPhoneNumber) {
         this.setState({ intlPhoneNumber, phoneNumber: parsed.getNationalNumber() }, () => {
-          this.selectCountry(this.lookupCountry(parsed.getCountryCode()), mounted)
+          this.selectCountry(this.lookupCountry(parsed.getCountryCode()), mounted || reset)
         })
       } else {
         this.setState({ intlPhoneNumber: defaultValue, selectedCountry: 'unknown' })
       }
     } else if (defaultCountry && countryNotSelected) {
       this.setState({ intlPhoneNumber: '', phoneNumber: '' }, () => {
-        this.selectCountry(countries.countries[defaultCountry], mounted)
+        this.selectCountry(countries.countries[defaultCountry], mounted || reset)
       })
     }
   }
@@ -289,13 +309,18 @@ export default class IntlTelInput extends Component {
   }
 
   render () {
-    const { open, selectedCountry, intlPhoneNumber, filteredCountries, searchTerm, paginateCount, multiSelectOpen, multiSelectItem, lastPreferred, tabbedIndex, message, valid } = this.state
-    const { noResultsMessage, className, removeToken, paginate, paginateText, placeholder, maxHeight, disabled, containerClassName, inputClassName, inputID, dropdownID } = this.props
+    const { open, selectedCountry, intlPhoneNumber, filteredCountries, searchTerm, paginateCount, multiSelectOpen, multiSelectItem, lastPreferred, tabbedIndex, message, valid, hover } = this.state
+    const { noResultsMessage, className, removeToken, paginate, paginateText, placeholder, maxHeight, disabled, inputClassName, inputID, dropdownID, callingCodeDivider } = this.props
     const { alpha2 } = selectedCountry
     const tabbedCountry = filteredCountries.length > 0 && filteredCountries[0].alpha2
     const flag = (this.missingFlags[alpha2] ? this.missingFlags[alpha2] : selectedCountry !== 'unknown' && Object.keys(selectedCountry).length > 0 && alpha2.toUpperCase()) || 'WW'
     return (
-      <div ref={(input) => { this.intlPhoneInput = input }} className={`${containerClassName ? containerClassName : '' }intl-phone-input${open ? ' open' : ''}`} onMouseDown={() => this.mouseDownHandler()} onMouseUp={() => this.mouseUpHandler()}>
+      <div
+        style={{position: 'relative', boxShadow: open ? this.boxShadowStyle : null}}
+        ref={(input) => { this.intlPhoneInput = input }}
+        className={`intl-phone-input${open ? ' open' : ''}`}
+        onMouseDown={() => this.mouseDownHandler()}
+        onMouseUp={() => this.mouseUpHandler()}>
         <div className='input-group'>
           <div className='input-group-btn'>
             <button
@@ -303,13 +328,17 @@ export default class IntlTelInput extends Component {
               tabIndex={0}
               disabled={disabled}
               aria-hidden={true}
+              style={{borderBottomLeftRadius: open ? 0 : null, transition: this.bgColorTransitionStyle, cursor: disabled ? null : 'pointer'}}
               className='btn btn-secondary dropdown-toggle country-selector'
               onClick={(e) => this.onOpenHandler(e)}>
               {flag && <FlagIcon code={flag} size={24} className='flag-icon' />}
             </button>
           </div>
           {((open && searchTerm.length > 0) || (!open && intlPhoneNumber.length > 0)) && !disabled &&
-            <span aria-hidden='true' className='remove-token-container'>
+            <span
+              aria-hidden='true'
+              className='remove-token-container'
+              style={{position: 'absolute', userSelect: 'none', zIndex: 10, fontSize: 26, right: 15, cursor: 'pointer'}}>
               <span style={{cursor: 'pointer'}} onClick={() => this.clearInput()}>{removeToken}</span>
             </span>
           }
@@ -324,6 +353,7 @@ export default class IntlTelInput extends Component {
             type='text'
             ref={(input) => { this.phoneInput = input }}
             className={`form-control phone-input${inputClassName ? inputClassName : ''}`}
+            style={{paddingRight: 38, borderBottomLeftRadius: open ? 0 : null, borderBottomRightRadius: open ? 0 : null}}
             placeholder={open ? placeholder : ''}
             onKeyDown={(e) => this.onKeyDown(e)}
             value={open ? searchTerm : intlPhoneNumber}
@@ -331,7 +361,13 @@ export default class IntlTelInput extends Component {
             onChange={(e) => open ? this.onChangeTypeAhead(e.target.value) : this.onChangePhone(e.target.value)}
           />
         </div>
-        <ul id={dropdownID} aria-hidden={true} tabIndex={-1} ref={(dropdown) => { this.countryDropdown = dropdown }} className='dropdown-menu country-dropdown' style={{maxHeight: open ? maxHeight : 0}}>
+        <ul
+          id={dropdownID}
+          aria-hidden={true}
+          tabIndex={-1}
+          ref={(dropdown) => { this.countryDropdown = dropdown }}
+          className='dropdown-menu country-dropdown'
+          style={{display: 'block', zIndex: 101, overflowX: 'scroll', marginTop: 0, borderTopLeftRadius: 0, borderTopRightRadius: 0, maxHeight: open ? maxHeight : 0, boxShadow: open ? this.boxShadowStyle : null, borderWidth: open ? 1 : 0, padding: open ? '10px 0 10px 0' : 0, transition: 'all 0.2s ease', width: '100%', borderTop: 'none'}}>
           {filteredCountries && filteredCountries.length > 0 && filteredCountries.map((country, index) => {
             const { name, alpha2, countryCallingCodes } = country
             const paginateTo = paginate && parseInt(paginate) * paginateCount
@@ -340,8 +376,11 @@ export default class IntlTelInput extends Component {
                 <li
                   id={alpha2}
                   tabIndex={0}
-                  className={`dropdown-item${lastPreferred && lastPreferred.alpha2 === alpha2 && searchTerm === '' ? ' preferred' : ''}${alpha2 === selectedCountry.alpha2 ? ' selected' : ''}${tabbedIndex === index + 1 ? ' tabbed' : ''}`}
+                  onMouseEnter={() => this.setState({ hoverIndex: index })}
+                  onMouseLeave={() => this.setState({ hoverIndex: NaN })}
+                  className={`dropdown-item${tabbedIndex === index + 1 ? ' tabbed' : ''}`}
                   key={`${alpha2}-${index}`}
+                  style={{padding: 15, cursor: 'pointer', borderBottom: lastPreferred && lastPreferred.alpha2 === alpha2 && searchTerm === '' ? '1px solid #c1c1c1' : '', transition: this.bgColorTransitionStyle, backgroundColor: this.getBgColor(index, alpha2 === selectedCountry.alpha2)}}
                   onClick={() => this.selectCountry(country, false, false, true)}>
                   <h6 style={{margin: 0}}>
                     <FlagIcon style={{marginRight: 10}} code={this.missingFlags[alpha2] ? this.missingFlags[alpha2] : alpha2} size={30} />
@@ -350,7 +389,7 @@ export default class IntlTelInput extends Component {
                       return (
                         <small className='text-muted' key={code}>
                           {code}
-                          {index !== countryCallingCodes.length - 1 && <span key={`${code}-divider`} className='country-code-divider' />}
+                          {index !== countryCallingCodes.length - 1 && <span key={`${code}-divider`}>{callingCodeDivider}</span>}
                         </small>
                       )
                     })}
@@ -360,22 +399,48 @@ export default class IntlTelInput extends Component {
             }
             if (index - 1 === paginateTo) {
               return (
-                <div className='dropdown-item' aria-hidden key={`addit-results-${index}`} onClick={() => this.setState({ paginateCount: paginateCount + 1 })}>
+                <div
+                  className='dropdown-item'
+                  aria-hidden
+                  style={{padding: 15, cursor: 'pointer', transition: this.bgColorTransitionStyle}}
+                  key={`addit-results-${index}`}
+                  onClick={() => this.setState({ paginateCount: paginateCount + 1 })}>
                   {paginateText}
                 </div>
               )
             }
           })}
           {filteredCountries && filteredCountries.length === 0 &&
-            <div className='dropdown-item'>
+            <div style={{padding: 15, cursor: 'pointer', transition: this.bgColorTransitionStyle}} className='dropdown-item'>
               {noResultsMessage}
             </div>
           }
-          <div ref={(select) => { this.multiSelect = select }} aria-hidden={!multiSelectOpen} className={`text-center calling-code-multi-select${multiSelectOpen ? ' open' : ''}`}>
-            <button role='button' type='button' aria-hidden={!multiSelectOpen} aria-label='close' onClick={() => this.cancelMultiSelect()} className='btn btn-outline btn-outline-danger multi-select-back-btn'>
+          <div
+            ref={(select) => { this.multiSelect = select }}
+            aria-hidden={!multiSelectOpen}
+            className={`text-center calling-code-multi-select${multiSelectOpen ? ' open' : ''}`}
+            style={{opacity: multiSelectOpen ? 1 : 0, zIndex: multiSelectOpen ? 'auto' : -1, transition: 'all 0.2s ease', backgroundColor: 'white', position: 'absolute', top: 0, left: 0, height: '100%', width: '100%'}}>
+            <button
+              type='button'
+              aria-hidden={!multiSelectOpen}
+              aria-label='close'
+              onClick={() => this.cancelMultiSelect()}
+              style={{position: 'absolute', left: 10, bottom: 10}}
+              className='btn btn-outline btn-outline-danger multi-select-back-btn'>
               Close
             </button>
-            {Object.keys(multiSelectItem).length > 0 && multiSelectItem.countryCallingCodes.map((item) => <button key={item} role='button' type='button' onClick={() => this.selectCountry(multiSelectItem, false, item)} className='btn btn-secondary country-btn'>{item}</button>)}
+            {Object.keys(multiSelectItem).length > 0 && multiSelectItem.countryCallingCodes.map((item) => {
+              return (
+                <button
+                  key={item}
+                  type='button'
+                  onClick={() => this.selectCountry(multiSelectItem, false, item)}
+                  style={{position: 'relative', top: '50%', transform : 'perspective(1px) translateY(-50%)', marginLeft: 8, verticalAlign: 'middle'}}
+                  className='btn btn-secondary'>
+                  {item}
+                </button>
+              )
+            })}
           </div>
         </ul>
       </div>
@@ -391,13 +456,15 @@ IntlTelInput.defaultProps = {
   placeholder: 'Search for a calling code by country name',
   maxHeight: 300,
   defaultCountry: 'US',
+  disabled: false,
   minLengthMessage: 'Too short to be a valid phone number',
   maxLengthMessage: 'Too long to be a valid phone number',
-  callingCodeMessage: 'Please select a country code',
+  callingCodeMessage: 'Please select a valid country code',
   catchAllMessage: 'Not a valid phone number',
   validMessage: 'This phone number is valid',
   inputID: 'intl-tel-input',
-  dropdownID: 'country-selector-dropdown'
+  dropdownID: 'country-selector-dropdown',
+  callingCodeDivider: <span style={{marginLeft: 4, marginRight: 4}}>/</span>
 }
 
 IntlTelInput.propTypes = {
@@ -410,8 +477,18 @@ IntlTelInput.propTypes = {
     PropTypes.number,
     PropTypes.string
   ]),
-  noResultsMessage: PropTypes.string,
-  paginateText: PropTypes.string,
+  noResultsMessage: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string
+  ]),
+  paginateText: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string
+  ]),
+  callingCodeDivider: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string
+  ]),
   paginate: PropTypes.number,
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
@@ -422,7 +499,6 @@ IntlTelInput.propTypes = {
   maxLengthMessage: PropTypes.string,
   callingCodeMessage: PropTypes.string,
   catchAllMessage: PropTypes.string,
-  containerClassName: PropTypes.string,
   inputClassName: PropTypes.string,
   validMessage: PropTypes.string,
   inputID: PropTypes.oneOfType([
