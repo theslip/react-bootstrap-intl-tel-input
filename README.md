@@ -8,7 +8,7 @@ React international telephone input built on bootstrap v4
 npm i react-bootstrap-intl-tel-input 
 ```
 
-## Usage
+### Usage
 ```javascript
 <IntlTelInput
   preferredCountries={['US', 'GB']}
