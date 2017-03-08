@@ -334,7 +334,7 @@ export default class IntlTelInput extends Component {
               disabled={disabled}
               aria-hidden
               style={{borderBottomLeftRadius: open ? 0 : null, transition: this.bgColorTransitionStyle, cursor: disabled ? null : 'pointer'}}
-              className='btn btn-secondary dropdown-toggle country-selector'
+              className='btn btn-secondary btn-primary dropdown-toggle country-selector'
               onClick={(e) => this.onOpenHandler(e)}>
               {flag && <FlagIcon code={flag} size={24} className='flag-icon' />}
             </button>
@@ -348,7 +348,7 @@ export default class IntlTelInput extends Component {
             </span>
           }
           <label htmlFor={inputID} aria-hidden={!open} className='sr-only'>Please enter your country's calling code followed by your phone number</label>
-          <div id='validation-info' aria-hidden={!open} aria-live='polite' className='sr-only'>
+          <div id='validation-info' aria-hidden={!open} aria-live='assertive' className='sr-only'>
             {message}. {Object.keys(selectedCountry).length > 0 ? `You have entered a calling code for ${selectedCountry.name}.` : ''}
           </div>
           <input
