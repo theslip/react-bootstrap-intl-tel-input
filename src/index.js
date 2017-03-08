@@ -349,7 +349,7 @@ export default class IntlTelInput extends Component {
           }
           <label htmlFor={inputID} aria-hidden={!open} className='sr-only'>Please enter your country's calling code followed by your phone number</label>
           <div id='validation-info' aria-hidden={!open} aria-live='assertive' className='sr-only'>
-            {message}. {Object.keys(selectedCountry).length > 0 ? `You have entered a calling code for ${selectedCountry.name}.` : ''}
+            {message}. {(Object.keys(selectedCountry).length > 0 && selectedCountry.name) ? `You have entered a calling code for ${selectedCountry.name}.` : ''}
           </div>
           <input
             id={inputID}
