@@ -1,6 +1,6 @@
 {
   "name": "react-bootstrap-intl-tel-input",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "React international telephone input built on bootstrap",
   "main": "index.js",
   "scripts": {
