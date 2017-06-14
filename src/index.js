@@ -134,8 +134,8 @@ export default class IntlTelInput extends Component {
     return _number ? _number.replace(/[^0-9]/g, '') : number
   }
 
-  getNationalNumber (alpha2, number) {
-    return number && alpha2 && alpha2.length ? number.substr(alpha2.length + 1) : ''
+  getNationalNumber (callingCode, number) {
+    return number && callingCode && callingCode.length ? number.substr(callingCode.length + 1) : ''
   }
 
   formatNumber (alpha2, number) {
@@ -162,7 +162,7 @@ export default class IntlTelInput extends Component {
       if (country) {
         const { alpha2 } = country
         const intlPhoneNumber = this.formatNumber(alpha2, unformattedNumber)
-        const phoneNumber = this.getNationalNumber(alpha2, intlPhoneNumber)
+        const phoneNumber = this.getNationalNumber(callingCode, intlPhoneNumber)
         const validation = this.validateNumber(alpha2, intlPhoneNumber)
         const { friendlyMessage, valid } = validation
         this.setState({ intlPhoneNumber, phoneNumber, message: friendlyMessage, valid }, () => this.onChangeCallback(country))
