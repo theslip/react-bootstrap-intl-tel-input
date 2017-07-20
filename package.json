@@ -31,6 +31,7 @@
     "country-data": "0.0.31",
     "escape-string-regexp": "^1.0.5",
     "google-libphonenumber": "^2.0.10",
+    "prop-types": "^15.5.10",
     "react": "^15.4.2",
     "react-flag-kit": "0.2.2",
     "uuid": "^3.0.1"
