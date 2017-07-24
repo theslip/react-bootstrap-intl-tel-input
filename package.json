@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "babel src --out-dir dist",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "start": "concurrently --kill-others 'webpack-dev-server' 'node babel-server.js'"
   },
   "repository": {
     "type": "git",
@@ -28,13 +29,29 @@
   },
   "homepage": "https://github.com/theslip/react-bootstrap-intl-tel-input#readme",
   "dependencies": {
+    "babel-loader": "^7.1.1",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-register": "^6.24.1",
+    "concurrently": "^3.5.0",
     "country-data": "0.0.31",
     "escape-string-regexp": "^1.0.5",
-    "google-libphonenumber": "^2.0.10",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "fs-promise": "^2.0.3",
+    "google-libphonenumber": "^2.0.19",
+    "koa": "^2.3.0",
+    "koa-static-server": "^1.3.2",
     "prop-types": "^15.5.10",
     "react": "^15.4.2",
-    "react-flag-kit": "0.2.2",
-    "uuid": "^3.0.1"
+    "react-dom": "^15.6.1",
+    "react-flag-kit": "^0.2.2",
+    "react-hot-loader": "^3.0.0-beta.7",
+    "react-router": "^4.1.2",
+    "react-router-dom": "^4.1.2",
+    "url-loader": "^0.5.9",
+    "uuid": "^3.1.0",
+    "webpack": "^3.3.0",
+    "webpack-dev-server": "^2.6.1"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",
