@@ -47,6 +47,6 @@ import IntlTelInput from 'react-bootstrap-intl-tel-input'
 ###### Note: All the validation messages are read to screen readers, so be sure to be descriptive!
 
 ### Development
-`
+```
 npm start
-`
+```
