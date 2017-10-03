@@ -35,7 +35,7 @@
     "google-libphonenumber": "^2.0.19",
     "prop-types": "^15.5.10",
     "react-flag-kit": "^0.2.2",
-    "uuid": "^3.1.0",
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "babel-loader": "^7.1.1",
