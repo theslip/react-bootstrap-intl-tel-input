@@ -328,14 +328,14 @@ export default class IntlTelInput extends Component {
         onMouseDown={() => this.mouseDownHandler()}
         onMouseUp={() => this.mouseUpHandler()}>
         <div className='input-group'>
-          <div className='input-group-btn'>
+          <div className='input-group-prepend'>
             <button
               type='button'
               tabIndex={0}
               disabled={disabled}
               aria-hidden
               style={{borderBottomLeftRadius: open ? 0 : null, transition: this.bgColorTransitionStyle, cursor: disabled ? null : 'pointer'}}
-              className='btn btn-secondary btn-primary dropdown-toggle country-selector'
+              className='btn btn-outline-secondary dropdown-toggle country-selector'
               onClick={(e) => this.onOpenHandler(e)}>
               {flag && <FlagIcon code={flag} size={24} className='flag-icon' />}
             </button>
