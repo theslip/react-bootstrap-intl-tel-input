@@ -4,7 +4,6 @@ import countries from 'country-data'
 import { AsYouTypeFormatter, PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber'
 import escapeStringRegexp from 'escape-string-regexp'
 import FlagIcon from 'react-flag-kit/lib/FlagIcon'
-import uuid from 'uuid'
 
 export default class IntlTelInput extends Component {
   constructor () {
@@ -16,6 +15,7 @@ export default class IntlTelInput extends Component {
     this.missingFlags = { AQ: 'WW', BQ: 'NL', EH: 'WW-AFR', MF: 'FR', SH: 'GB' }
     this.boxShadowStyle = '0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.4)'
     this.bgColorTransitionStyle = 'background-color .25s, color .25s'
+    this.inputID = '__react-intl-tel-input'
     this.state = {
       open: false,
       selectedCountry: {},
@@ -123,7 +123,12 @@ export default class IntlTelInput extends Component {
   }
 
   lookupCountry (callingCode) {
-    return callingCode.toString().trim() === '1' ? countries.countries.US : countries.lookup.countries({ countryCallingCodes: `+${callingCode}` }).filter((country) => country.status === 'assigned')[0]
+    const _callingCode = callingCode.toString().trim().replace('+', '')
+    if (_callingCode === '1') {
+      return countries.countries.US
+    } else {
+      return countries.lookup.countries({ countryCallingCodes: `+${_callingCode}` }).filter((country) => country.status === 'assigned')[0]
+    }
   }
 
   testNumber (number) {
@@ -287,7 +292,16 @@ export default class IntlTelInput extends Component {
           this.selectCountry(this.lookupCountry(parsed.getCountryCode()), mounted || reset)
         })
       } else {
-        this.setState({ intlPhoneNumber: defaultValue, selectedCountry: 'unknown' })
+        const potentialCountry = this.lookupCountry(defaultValue)
+        const potentialCountryIsValid = potentialCountry && Object.keys(potentialCountry).length > 0
+        const _defaultCountry = defaultCountry.toUpperCase()
+        if (potentialCountryIsValid && _defaultCountry !== potentialCountry.alpha2) {
+          throw new Error(`Default country and calling code mismatch. Got '${defaultValue} (${_defaultCountry})', but expected '${defaultValue} (${potentialCountry.alpha2})'.`)
+        }
+        this.setState({
+          intlPhoneNumber: defaultValue,
+          selectedCountry: potentialCountryIsValid ? potentialCountry : 'unknown'
+        })
       }
     } else if (defaultCountry && countryNotSelected) {
       this.setState({ intlPhoneNumber: '', phoneNumber: '' }, () => {
@@ -317,7 +331,6 @@ export default class IntlTelInput extends Component {
     const { open, selectedCountry, intlPhoneNumber, filteredCountries, searchTerm, paginateCount, multiSelectOpen, multiSelectItem, lastPreferred, tabbedIndex, message, valid, hover } = this.state
     const { noResultsMessage, className, removeToken, paginate, paginateText, placeholder, maxHeight, disabled, inputClassName, callingCodeDivider } = this.props
     const { alpha2 } = selectedCountry
-    const inputID = uuid.v4()
     const tabbedCountry = filteredCountries.length > 0 && filteredCountries[0].alpha2
     const flag = (this.missingFlags[alpha2] ? this.missingFlags[alpha2] : selectedCountry !== 'unknown' && Object.keys(selectedCountry).length > 0 && alpha2.toUpperCase()) || 'WW'
     return (
@@ -348,12 +361,12 @@ export default class IntlTelInput extends Component {
               <span style={{cursor: 'pointer'}} onClick={() => this.clearInput()}>{removeToken}</span>
             </span>
           }
-          <label htmlFor={inputID} aria-hidden={!open} className='sr-only'>Please enter your country's calling code followed by your phone number</label>
+          <label htmlFor={this.inputID} aria-hidden={!open} className='sr-only'>Please enter your country's calling code followed by your phone number</label>
           <div id='validation-info' aria-hidden={!open} aria-live='assertive' className='sr-only'>
             {message}. {(Object.keys(selectedCountry).length > 0 && selectedCountry.name) ? `You have entered a calling code for ${selectedCountry.name}.` : ''}
           </div>
           <input
-            id={inputID}
+            id={this.inputID}
             autoComplete={'off'}
             aria-describedby={'validation-info'}
             type='text'

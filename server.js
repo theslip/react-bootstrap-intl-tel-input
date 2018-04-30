@@ -2,7 +2,6 @@ import Koa from 'koa'
 import serve from 'koa-static-server'
 import path from 'path'
 import http from 'http'
-import fs from 'fs-promise'
 import Index from './entry'
 
 const app = new Koa()

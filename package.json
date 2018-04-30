@@ -1,6 +1,6 @@
 {
   "name": "react-bootstrap-intl-tel-input",
-  "version": "1.0.1",
+  "version": "0.0.15",
   "description": "React international telephone input built on bootstrap",
   "main": "index.js",
   "scripts": {
@@ -31,11 +31,10 @@
   "dependencies": {
     "country-data": "0.0.31",
     "escape-string-regexp": "^1.0.5",
-    "fs-promise": "^2.0.3",
     "google-libphonenumber": "^2.0.19",
     "prop-types": "^15.5.10",
-    "react-flag-kit": "^0.2.2",
-    "uuid": "^3.1.0"
+    "react-bootstrap-intl-tel-input": "^1.0.1",
+    "react-flag-kit": "^0.2.2"
   },
   "peerDependencies": {
     "react": "^15.4.2",
