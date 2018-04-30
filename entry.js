@@ -7,7 +7,7 @@ export default () => {
     <html>
       <head>
         <title>react-bootstrap-intl-tel-input</title>
-        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css' />
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' />
       </head>
       <body>
         <div id='root' />

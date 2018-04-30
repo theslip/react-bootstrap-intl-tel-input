@@ -5,7 +5,7 @@ import IntlTelInput from './src'
 export class Routes extends Component {
   render () {
     return (
-      <div className='col-md-2 offset-md-5' style={{marginTop: 200}}>
+      <div className='col-md-4 offset-md-4' style={{marginTop: 200}}>
         <Switch>
           <Route exact path='/' render={() => {
             return (
