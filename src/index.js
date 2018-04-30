@@ -291,11 +291,12 @@ export default class IntlTelInput extends Component {
         this.setState({ intlPhoneNumber, phoneNumber: parsed.getNationalNumber().toString() }, () => {
           this.selectCountry(this.lookupCountry(parsed.getCountryCode()), mounted || reset)
         })
-      } else {
+      } else if (defaultValue) {
+        console.log({ defaultCountry, defaultValue })
         const potentialCountry = this.lookupCountry(defaultValue)
         const potentialCountryIsValid = potentialCountry && Object.keys(potentialCountry).length > 0
-        const _defaultCountry = defaultCountry.toUpperCase()
-        if (potentialCountryIsValid && _defaultCountry !== potentialCountry.alpha2) {
+        const _defaultCountry = defaultCountry && defaultCountry.toUpperCase()
+        if (potentialCountryIsValid && defaultCountry && _defaultCountry !== potentialCountry.alpha2) {
           throw new Error(`Default country and calling code mismatch. Got '${defaultValue} (${_defaultCountry})', but expected '${defaultValue} (${potentialCountry.alpha2})'.`)
         }
         this.setState({
@@ -473,7 +474,7 @@ IntlTelInput.defaultProps = {
   paginate: 50,
   placeholder: 'Search for a calling code by country name',
   maxHeight: 300,
-  defaultCountry: 'US',
+  defaultCountry: '',
   disabled: false,
   minLengthMessage: 'Too short to be a valid phone number',
   maxLengthMessage: 'Too long to be a valid phone number',

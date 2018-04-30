@@ -11,8 +11,8 @@ export class Routes extends Component {
             return (
               <IntlTelInput
                 preferredCountries={['US', 'GB']}
-                defaultCountry={'US'}
-                defaultValue={'+376'}
+                // defaultCountry={'US'}
+                defaultValue={'+1809'}
               />
             )
           }} />
