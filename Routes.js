@@ -12,7 +12,7 @@ export class Routes extends Component {
               <IntlTelInput
                 preferredCountries={['US', 'GB']}
                 // defaultCountry={'US'}
-                defaultValue={'+1809'}
+                defaultValue={'+1 809'}
               />
             )
           }} />

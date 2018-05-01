@@ -123,11 +123,13 @@ export default class IntlTelInput extends Component {
   }
 
   lookupCountry (callingCode) {
-    const _callingCode = callingCode.toString().trim().replace('+', '')
+    const _callingCode = callingCode.toString().trim()
     if (_callingCode === '1') {
       return countries.countries.US
     } else {
-      return countries.lookup.countries({ countryCallingCodes: `+${_callingCode}` }).filter((country) => country.status === 'assigned')[0]
+      return countries.lookup.countries({
+        countryCallingCodes: `${_callingCode.charAt(0) === '+' ? _callingCode : '+'.concat(_callingCode)}`
+      }).filter((country) => country.status === 'assigned')[0]
     }
   }
 
@@ -285,24 +287,26 @@ export default class IntlTelInput extends Component {
     const { selectedCountry } = this.state
     const { defaultCountry, defaultValue } = props
     const countryNotSelected = Object.keys(selectedCountry).length < 1 && selectedCountry !== 'unknown'
-    if (defaultValue) {
-      const { intlPhoneNumber, parsed } = this.validateNumber('unknown', defaultValue)
-      if (intlPhoneNumber) {
-        this.setState({ intlPhoneNumber, phoneNumber: parsed.getNationalNumber().toString() }, () => {
-          this.selectCountry(this.lookupCountry(parsed.getCountryCode()), mounted || reset)
-        })
-      } else if (defaultValue) {
-        console.log({ defaultCountry, defaultValue })
-        const potentialCountry = this.lookupCountry(defaultValue)
-        const potentialCountryIsValid = potentialCountry && Object.keys(potentialCountry).length > 0
-        const _defaultCountry = defaultCountry && defaultCountry.toUpperCase()
-        if (potentialCountryIsValid && defaultCountry && _defaultCountry !== potentialCountry.alpha2) {
+    if (defaultValue || defaultValue === 0) {
+      const potentialCountry = this.lookupCountry(defaultValue)
+      const potentialCountryIsValid = !!(potentialCountry && Object.keys(potentialCountry).length > 0)
+      const _defaultCountry = defaultCountry && defaultCountry.toUpperCase()
+      if (potentialCountryIsValid) {
+        if (defaultCountry && _defaultCountry !== potentialCountry.alpha2) {
           throw new Error(`Default country and calling code mismatch. Got '${defaultValue} (${_defaultCountry})', but expected '${defaultValue} (${potentialCountry.alpha2})'.`)
+        } else {
+          this.setState({
+            intlPhoneNumber: defaultValue,
+            selectedCountry: potentialCountryIsValid ? potentialCountry : 'unknown'
+          })
         }
-        this.setState({
-          intlPhoneNumber: defaultValue,
-          selectedCountry: potentialCountryIsValid ? potentialCountry : 'unknown'
-        })
+      } else {
+        const { intlPhoneNumber, parsed } = this.validateNumber('unknown', defaultValue)
+        if (intlPhoneNumber) {
+          this.setState({ intlPhoneNumber, phoneNumber: parsed.getNationalNumber().toString() }, () => {
+            this.selectCountry(this.lookupCountry(parsed.getCountryCode()), mounted || reset)
+          })
+        }
       }
     } else if (defaultCountry && countryNotSelected) {
       this.setState({ intlPhoneNumber: '', phoneNumber: '' }, () => {
